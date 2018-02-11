@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-96350349-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <script src="js/marginal-rates.js"></script>
+
+    <title>Marginal Tax Rates</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Marginal Tax Rates in 2017 and 2018</h1>
+
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Tax year">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="year" value="2017" autocomplete="off" checked>2017
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="year" value="2018" autocomplete="off">2018
+          </label>
+        </div>
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Filing status">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="filing-status" value="single" autocomplete="off" checked>Single
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="filing-status" value="hoh" autocomplete="off">HOH
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="filing-status" value="mfj" autocomplete="off">MFJ
+          </label>
+        </div>
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Number of dependents">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="dependents" value=0 autocomplete="off" checked>No Dependents
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="dependents" value=1 autocomplete="off">1
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="dependents" value=2 autocomplete="off">2
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="dependents" value=3 autocomplete="off">3
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="dependents" value=4 autocomplete="off">4
+          </label>
+        </div>
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Division of income for married couples">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="mfj-division" value="equal" autocomplete="off" checked>Equal Incomes
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="mfj-division" value="unequal" autocomplete="off">Breadwinner-Homemaker
+          </label>
+        </div>
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Category of income">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="income-category" value="wages" autocomplete="off" checked>Wages
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="income-category" value="capital" autocomplete="off">Capital Gains
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="income-category" value="business" autocomplete="off">Pass-Through
+          </label>
+        </div>
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Other taxes">
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="payroll" title="Social Security, Medicare, and the Additional Medicare Tax" autocomplete="off"> Payroll
+          </label>
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="eitc" autocomplete="off"> EITC
+          </label>
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="ctc" autocomplete="off"> Child Tax Credit
+          </label>
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="ptc" autocomplete="off"> Premium Tax Credit
+          </label>
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="snap" title="Food Stamps" autocomplete="off"> SNAP
+          </label>
+          <label class="btn btn-secondary">
+            <input type="checkbox" name="others" value="section8" autocomplete="off"> Section 8
+          </label>
+        </div>
+      </div>
+
+    </div>
+    <div class="container canvas-container">
+      <canvas id="myChart" width="600" height="400"></canvas>
+    </div>
+    <div class="container">
+      <table id="myTable">
+        <tr>
+          <th>Over</th>
+          <th>But &le;</th>
+          <th>Marginal rate</th>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Bootstrap JS Requirements -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+    <!-- Chart.js Requirements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+    <script>
+      initialize();
+    </script>
+  </body>
+</html>

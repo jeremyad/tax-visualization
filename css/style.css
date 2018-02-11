@@ -1,0 +1,35 @@
+body {
+	background: #ededf3;
+	font-family: 'Helvetica Neue', sans-serif;
+	color: #111;
+}
+
+a {
+	color: #555;
+	text-decoration: none;
+	border-bottom: 1px solid #ccc;
+}
+
+a:hover {
+	color: #222;
+	text-decoration: none;
+	border-bottom: 1px solid #222;
+}
+
+p {
+	font-size: 20px;
+	font-weight: 300;
+	padding-top: 7px;
+}
+
+.container {
+	margin: auto;
+	margin-top: 100px;
+	width: 600px;
+}
+
+td {
+	padding-left: 20px;
+	padding-right: 20px;
+	text-align: center;
+}
