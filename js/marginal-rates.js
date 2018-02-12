@@ -213,6 +213,13 @@ var POVERTY_LINE_2017 = {
   6: 32960
 }
 
+// These values come from p. 6 of
+// https://aspe.hhs.gov/system/files/pdf/258456/Landscape_Master2018_1.pdf.
+var AVERAGE_PREMIUM = {
+  2017: 300 * 12,
+  2018: 411 * 12
+};
+
 /**
  * Returns the Premium Tax Credit tax brackets for the given type of taxpayer.
  *
@@ -223,11 +230,13 @@ var POVERTY_LINE_2017 = {
  * @param {number} numDependents - The number of dependents.
  * @returns A list of brackets representing the PTC bracket structure.
  */
-var getPtcBrackets = function(filingStatus, numDependents) {
+var getPtcBrackets = function(year, filingStatus, numDependents) {
   var result = [[0,0]];
 
   var householdSize = numDependents + (filingStatus == "mfj" ? 2 : 1);
   var povertyLine = POVERTY_LINE_2017[householdSize];
+
+  var totalPremium = householdSize * AVERAGE_PREMIUM[year];
 
   for (var i = 0; i < PREMIUM_TAX_CREDIT_RATES.length; i += 1) {
     var bracketStart = PREMIUM_TAX_CREDIT_RATES[i][0] * povertyLine / 100.0;
@@ -243,10 +252,23 @@ var getPtcBrackets = function(filingStatus, numDependents) {
       result.push([bracketStart - 1, contributionStart * 100])
     }
 
+    // Check if we've finished paying for insurance.
+    if (contributionEnd > totalPremium) {
+      bracketEnd = bracketStart + (totalPremium - contributionStart) / marginalRate;
+    }
+
     result.push([bracketStart, marginalRate]);
+
+    if (contributionEnd > totalPremium) {
+      break;
+    }
   }
 
-  // TODO: Deal with the fact that premiums may not actually get that high or may be higher.
+  // Check for a cliff at 400% of the poverty line.
+  if (contributionEnd < totalPremium) {
+    result.push([bracketEnd, (totalPremium - contributionEnd) * 100]);
+    bracketEnd += 1;
+  }
 
   result.push([bracketEnd, 0]);
   return result;
@@ -678,7 +700,7 @@ var calculateMarginalRates = function(year,
   }
 
   if ($.inArray("ptc", othersToInclude) != -1) {
-    result = addBrackets(result, getPtcBrackets(filingStatus, numDependents));
+    result = addBrackets(result, getPtcBrackets(year, filingStatus, numDependents));
   }
 
   if ($.inArray("section8", othersToInclude) != -1) {
