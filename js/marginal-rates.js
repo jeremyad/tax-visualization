@@ -748,6 +748,7 @@ var enforceIncomeCategories = function() {
   if (filingStatus != "mfj") {
     disableButton($("input[value=equal]"));
     disableButton($("input[value=unequal]"));
+    $(".mfj-division").hide();
   } else {
     enableButton($("input[value=equal]"));
     enableButton($("input[value=unequal]"));
@@ -755,6 +756,8 @@ var enforceIncomeCategories = function() {
     if ($("input[name=mfj-division]:checked").length == 0) {
       enableButton($("input[value=equal]"), true);
     }
+
+    $(".mfj-division").show();
   }
 }
 

@@ -36,42 +36,6 @@
             <input type="radio" name="year" value="2018" autocomplete="off">2018
           </label>
         </div>
-        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Filing status">
-          <label class="btn btn-secondary active">
-            <input type="radio" name="filing-status" value="single" autocomplete="off" checked>Single
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="filing-status" value="hoh" autocomplete="off">HOH
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="filing-status" value="mfj" autocomplete="off">MFJ
-          </label>
-        </div>
-        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Number of dependents">
-          <label class="btn btn-secondary active">
-            <input type="radio" name="dependents" value=0 autocomplete="off" checked>No Dependents
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="dependents" value=1 autocomplete="off">1
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="dependents" value=2 autocomplete="off">2
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="dependents" value=3 autocomplete="off">3
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="dependents" value=4 autocomplete="off">4
-          </label>
-        </div>
-        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Division of income for married couples">
-          <label class="btn btn-secondary active">
-            <input type="radio" name="mfj-division" value="equal" autocomplete="off" checked>Equal Incomes
-          </label>
-          <label class="btn btn-secondary">
-            <input type="radio" name="mfj-division" value="unequal" autocomplete="off">Breadwinner-Homemaker
-          </label>
-        </div>
         <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Category of income">
           <label class="btn btn-secondary active">
             <input type="radio" name="income-category" value="wages" autocomplete="off" checked>Wages
@@ -83,26 +47,64 @@
             <input type="radio" name="income-category" value="business" autocomplete="off">Pass-Through
           </label>
         </div>
-        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Other taxes">
-          <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="payroll" title="Social Security, Medicare, and the Additional Medicare Tax" autocomplete="off"> Payroll
+      </div>
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Filing status">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="filing-status" value="single" autocomplete="off" checked>Single
           </label>
           <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="eitc" autocomplete="off"> EITC
+            <input type="radio" name="filing-status" value="hoh" autocomplete="off">HOH
           </label>
           <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="ctc" autocomplete="off"> Child Tax Credit
-          </label>
-          <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="ptc" autocomplete="off"> Premium Tax Credit
-          </label>
-          <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="snap" title="Food Stamps" autocomplete="off"> SNAP
-          </label>
-          <label class="btn btn-secondary">
-            <input type="checkbox" name="others" value="section8" autocomplete="off"> Section 8
+            <input type="radio" name="filing-status" value="mfj" autocomplete="off">MFJ
           </label>
         </div>
+        <div class="btn-group btn-group-toggle m-2 mfj-division" role="group" data-toggle="buttons" aria-label="Division of income for married couples">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="mfj-division" value="equal" autocomplete="off" checked>Equal Incomes
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="mfj-division" value="unequal" autocomplete="off">Breadwinner-Homemaker
+          </label>
+        </div>
+      </div>
+      <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Number of dependents">
+        <label class="btn btn-secondary active">
+          <input type="radio" name="dependents" value=0 autocomplete="off" checked>No Dependents
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="dependents" value=1 autocomplete="off">1
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="dependents" value=2 autocomplete="off">2
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="dependents" value=3 autocomplete="off">3
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="dependents" value=4 autocomplete="off">4
+        </label>
+      </div>
+      <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Other taxes">
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="payroll" title="Social Security, Medicare, and the Additional Medicare Tax" autocomplete="off"> Payroll
+        </label>
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="eitc" autocomplete="off"> EITC
+        </label>
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="ctc" autocomplete="off"> Child Tax Credit
+        </label>
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="ptc" autocomplete="off"> Premium Tax Credit
+        </label>
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="snap" title="Food Stamps" autocomplete="off"> SNAP
+        </label>
+        <label class="btn btn-secondary">
+          <input type="checkbox" name="others" value="section8" autocomplete="off"> Section 8
+        </label>
       </div>
 
     </div>
