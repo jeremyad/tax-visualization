@@ -632,6 +632,71 @@ var shiftBrackets2017 = function(brackets, filingStatus, numDependents) {
   return result;
 }
 
+/**
+ * Makes a table for comparing multiple rate structures.
+ *
+ * @param {array} series - A list, each of whose elements is a list of brackets.
+ * @returns A list, each of whose elements is a list consisting of a bracket
+ *   start, a bracket end, and the applicable rate from each of the parameter
+ *   series.
+ */
+var makeTable = function(series) {
+  var indices = [];
+  for (var i = 0; i < series.length; i += 1) {
+    indices.push(0);
+  }
+
+  var done = false;
+  var lastEnd = 0;
+
+  var result = [];
+
+  while (!done) {
+    var bracketStart = lastEnd;
+
+    var bracketEnd = Number.MAX_SAFE_INTEGER;
+    var bracketEndIndices = [];
+    for (var i = 0; i < indices.length; i += 1) {
+      if (indices[i] < series[i].length - 1) {
+        var miniBracketEnd = series[i][indices[i] + 1][0];
+        if (miniBracketEnd > bracketStart && miniBracketEnd < bracketEnd) {
+          bracketEnd = miniBracketEnd;
+          bracketEndIndices = [i];
+        } else if (miniBracketEnd == bracketEnd) {
+          bracketEndIndices.push(i);
+        }
+      }
+    }
+
+    var row = [bracketStart, bracketEnd];
+    for (var i = 0; i < indices.length; i += 1) {
+      row.push(series[i][indices[i]][1]);
+    }
+
+    result.push(row);
+
+    for (var i = 0; i < bracketEndIndices.length; i += 1) {
+      indices[bracketEndIndices[i]] += 1;
+    }
+    lastEnd = bracketEnd;
+
+    // Check whether we're at the end of all of them.
+    if (bracketEndIndices.length == 0) {
+      break;
+    }
+
+    done = true;
+    for (var i = 0; i < indices.length; i += 1) {
+      if (indices[i] < series[i].length) {
+        done = false;
+        break;
+      }
+    }
+  }
+
+  return result;
+}
+
 // =============
 // MAIN FUNCTION
 // =============
@@ -786,60 +851,84 @@ var enforceIncomeCategories = function() {
 /**
  * Calculates tax rates based on current button status.
  *
- * @returns A list of brackets based on the current settings.
+ * @returns A dictionary mapping labels to lists of brackets based on the current settings.
  */
 var getCurrentData = function() {
-  var year = parseInt($("input[name=year]:checked").val());
+  var year = $("input[name=year]:checked").val();
+
+  var years = year == "compare" ? [2017, 2018] : [parseInt(year)];
+
   var filingStatus = $("input[name=filing-status]:checked").val();
   var numDependents = parseInt($("input[name=dependents]:checked").val());
   var mfjDivision = $("input[name=mfj-division]:checked").val();
   var incomeCategory = $("input[name=income-category]:checked").val();
 
-  var others = []
+  var others = [];
   $("input[name=others]:checked").each(function() {
     others.push($(this).val());
   });
 
-  return calculateMarginalRates(year, filingStatus, numDependents, 
-                                  mfjDivision, incomeCategory, others);
+  var result = {};
+  for (var i = 0; i < years.length; i += 1) {
+    var label = years[i];
+    var brackets = calculateMarginalRates(
+        years[i], filingStatus, numDependents, 
+        mfjDivision, incomeCategory, others);
+    result[label] = brackets;
+  }
+
+  return result;
 };
 
 var X_MAX = 700000;
 
+var COLORS = {
+  2017: "red",
+  2018: "blue"
+}
+
 /**
  * Updates the graph to reflect current data.
  *
- * @param {array} data - A list of brackets representing the current bracket
- *   structure.
+ * @param {array} data - A dictionary mapping labels to lists of brackets.
  */
 var updateChart = function(data) {
   $(".canvas-container").children().remove();
   $(".canvas-container").append("<canvas id=\"myChart\" width=\"400\" height=\"400\"></canvas>");
 
-  formattedData = [];
-  for (var i = 0; i < data.length; i += 1) {
+  var datasets = [];
+  for (var label in data) {
+    var brackets = data[label];
+
+    var formattedData = [];
+    for (var i = 0; i < brackets.length; i += 1) {
+      formattedData.push({
+        x: brackets[i][0],
+        y: brackets[i][1]
+      })
+    }
     formattedData.push({
-      x: data[i][0],
-      y: data[i][1]
-    })
+      x: X_MAX, 
+      y: brackets[brackets.length - 1][1]
+    });
+
+    var color = COLORS[label];
+
+    datasets.push({
+      label: label,
+      steppedLine: true,
+      fill: false,
+      borderColor: color,
+      backgroundColor: color,
+      data: formattedData
+    });
   }
-  formattedData.push({
-    x: X_MAX, 
-    y: data[data.length - 1][1]
-  });
 
   var ctx = document.getElementById("myChart").getContext('2d');
   var myChart = new Chart(ctx, {
       type: 'line',
       data: {
-        datasets: [{
-          label: 'Marginal rate',
-          steppedLine: true,
-          fill: false,
-          borderColor: 'red',
-          backgroundColor: 'red',
-          data: formattedData
-        }]
+        datasets: datasets
       },
       options: {
         animation: {
@@ -875,6 +964,15 @@ var updateChart = function(data) {
 };
 
 /**
+ * Formats a dollar amount  (with a dollar sign and two decimal places).
+ * 
+ * @param {number} amount - The dollar amount to format.
+ */
+var formatDollarAmount = function(amount) {
+  return "$" + amount.toLocaleString("en-US", {maximumFractionDigits: 0});
+}
+
+/**
  * Updates the table to reflect current data.
  *
  * @param {array} data - A list of brackets representing the current bracket
@@ -884,19 +982,41 @@ var updateTable = function(data) {
   var $table = $("#myTable");
   $table.children().remove();
 
+  var labels = Object.keys(data);
+  labels.sort();
+
   var newrows = [];
-  newrows.push("<tr><th>Over</th><th>But &le;</th><th>Marginal rate</th></tr>");
-  for (var i = 0; i < data.length; i++) {
-    var bracketStart = data[i][0];
-    var bracketRate = data[i][1];
-    var bracketEnd = "";
-    if (i + 1 < data.length) {
-      bracketEnd = data[i + 1][0];
+
+  // Header row.
+  var header = "<tr><th>Over</th><th>But &le;</th>";
+  for (var i = 0; i < labels.length; i++) {
+    header += "<th>" + labels[i] + " marginal rates</th>";
+  }
+  header += "</tr>";
+  newrows.push(header);
+
+  var series = [];
+  for (var i = 0; i < labels.length; i++) {
+    series.push(data[labels[i]]);
+  }
+
+  var table_data = makeTable(series);
+  for (var i = 0; i < table_data.length; i++) {
+    var row = [];
+    row.push(formatDollarAmount(table_data[i][0]));
+
+    // Only add the bracket end point if it isn't the integer maximum.
+    if (table_data[i][1] < 10000000) {
+      row.push(formatDollarAmount(table_data[i][1]));
+    } else {
+      row.push("");
     }
 
-    row = ["$" + bracketStart.toLocaleString("en-US", {maximumFractionDigits: 0}), 
-           bracketEnd == "" ? "" : "$" + bracketEnd.toLocaleString("en-US", {maximumFractionDigits: 0}), 
-           bracketRate.toFixed(2) + "%"]
+    // Add all of the rates.
+    for (var j = 2; j < table_data[i].length; j += 1) {
+      row.push(table_data[i][j].toFixed(2) + "%")
+    }
+
     var rowstring = "<tr>";
     for (var j = 0; j < row.length; j += 1) {
       rowstring += "<td>" + row[j] + "</td>";
