@@ -1040,5 +1040,10 @@ var refresh = function() {
 
 var initialize = function() {
   $(".btn").on("change", refresh);
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
   refresh();
 }

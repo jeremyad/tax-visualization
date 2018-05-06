@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
@@ -53,59 +57,59 @@
       </div>
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Filing status">
-          <label class="btn btn-secondary active">
+          <label class="btn btn-secondary active" data-toggle="tooltip" data-placement="bottom" title="Filing Status: Single">
             <input type="radio" name="filing-status" value="single" autocomplete="off" checked>Single
           </label>
-          <label class="btn btn-secondary">
+          <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Filing Status: Head of Household">
             <input type="radio" name="filing-status" value="hoh" autocomplete="off">HOH
           </label>
-          <label class="btn btn-secondary">
+          <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Filing Status: Married Filing Jointly">
             <input type="radio" name="filing-status" value="mfj" autocomplete="off">MFJ
           </label>
         </div>
         <div class="btn-group btn-group-toggle m-2 mfj-division" role="group" data-toggle="buttons" aria-label="Division of income for married couples">
-          <label class="btn btn-secondary active">
+          <label class="btn btn-secondary active" data-toggle="tooltip" data-placement="bottom" title="Partners have equal income">
             <input type="radio" name="mfj-division" value="equal" autocomplete="off" checked>Equal Incomes
           </label>
-          <label class="btn btn-secondary">
+          <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="One partner has all the income">
             <input type="radio" name="mfj-division" value="unequal" autocomplete="off">Breadwinner-Homemaker
           </label>
         </div>
       </div>
       <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Number of dependents">
-        <label class="btn btn-secondary active">
+        <label class="btn btn-secondary active" data-toggle="tooltip" data-placement="bottom" title="0 children">
           <input type="radio" name="dependents" value=0 autocomplete="off" checked>No Dependents
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="1 child">
           <input type="radio" name="dependents" value=1 autocomplete="off">1
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="2 children">
           <input type="radio" name="dependents" value=2 autocomplete="off">2
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="3 children">
           <input type="radio" name="dependents" value=3 autocomplete="off">3
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="4 children">
           <input type="radio" name="dependents" value=4 autocomplete="off">4
         </label>
       </div>
       <div class="btn-group btn-group-toggle m-2" role="group" data-toggle="buttons" aria-label="Other taxes">
-        <label class="btn btn-secondary">
-          <input type="checkbox" name="others" value="payroll" title="Social Security, Medicare, and the Additional Medicare Tax" autocomplete="off"> Payroll
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Social Security, Medicare, and the Additional Medicare Tax">
+          <input type="checkbox" name="others" value="payroll"  autocomplete="off"> Payroll
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Earned Income Tax Credit">
           <input type="checkbox" name="others" value="eitc" autocomplete="off"> EITC
         </label>
-        <label class="btn btn-secondary">
-          <input type="checkbox" name="others" value="ctc" autocomplete="off"> Child Tax Credit
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Child Tax Credit">
+          <input type="checkbox" name="others" value="ctc" autocomplete="off"> CTC
         </label>
-        <label class="btn btn-secondary">
-          <input type="checkbox" name="others" value="ptc" autocomplete="off"> Premium Tax Credit
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Obamacare Premium Tax Credit">
+          <input type="checkbox" name="others" value="ptc" autocomplete="off"> PTC
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Phase-out of Food Stamps">
           <input type="checkbox" name="others" value="snap" title="Food Stamps" autocomplete="off"> SNAP
         </label>
-        <label class="btn btn-secondary">
+        <label class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Renter's contribution to the Housing Choice Voucher Program">
           <input type="checkbox" name="others" value="section8" autocomplete="off"> Section 8
         </label>
       </div>
